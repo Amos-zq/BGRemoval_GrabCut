@@ -1,0 +1,63 @@
+There are three modes here:
+
+1. For single image (Mode='single')
+
+  1) Command line: ./main --mode='single' test.jpg --iter=N
+    
+    where N is the number of iterations (defalt=3)
+
+  2) Process: 
+  
+    A. Use hot keys according to hints and draw the lines according to 
+       
+       https://wiki.nvidia.com/wmpwiki/index.php/Camera/Solutions/Background_Removal/Datasets 
+       (in the GrabCut part)
+            
+    B. After you finish drawing lines, press 'n' to fill the area of foreground, 
+       background, and probable foreground. 
+
+        Using hot keys according to hints:
+        
+            Press 'f' to fill the foreground
+	        Press 'b' to fill the background
+	        Press 'p' to fill the probable foreground
+	        Press 's' to save the current image
+	        Press 'Esc' to go to next step
+
+	C. Output mask will be saved in folder "./output/" 
+	   (the output directory will be printed)
+
+2. For image with depth mask (Mode='rgbd')
+
+  1) Command line: ./main --mode='rgbd' test.png depth_mask.png --iter=Ni --dilation=Nd --erosion=Ne
+  
+    where Ni -- the number of iterations (default=3)
+          Nd -- dilation_size (defalut=5)
+          Ne -- erosion_size (default=5)
+          
+  2) The output mask directory will be printed (defaul="./output")
+
+3. For video (Mode='video')
+
+  1) Command line: ./main --mode='video' test.mp4 --frame=Nf --iter=Ni --dilation=Nd --erosion=Ne
+  
+    where Nf -- number of frame to begin (default=0)
+                if Nf = 0, then you will segment the first frame manually and 
+                           the program runs from the first frame automatically
+                if Nf != 0, then you will segment the Nf-th frame manually 
+                            and the program runs from Nf-th frame automatically, 
+                            while frames prior to Nf stays the same 
+                            (It is used to modify Grabcut mistakes) 
+          Ni -- the number of iterations (default=3)
+          Nd -- dilation_size (defalut=5)
+          Ne -- erosion_size (default=5)
+  2) Process:
+  
+    A & B are the same as in Mode 1 (image is the frame-Nf image);
+    
+    C. Ouput masks for each frame and output videos will be saved in folder 
+       "./output/video_name/" 
+       (output directory will be printed)
+
+
+	
