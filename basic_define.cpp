@@ -1,14 +1,6 @@
-#include "opencv2/core.hpp"
-#include <opencv2/core/utility.hpp>
 #include "opencv2/imgproc.hpp"
-#include "opencv2/video/background_segm.hpp"
-#include "opencv2/videoio.hpp"
 #include "opencv2/highgui.hpp"
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
-#include <string>
-#include <iomanip>
 #include "gcapp.h"
 
 void GCApplication::getBinMask( const cv::Mat& comMask, cv::Mat& binMask )
@@ -23,7 +15,7 @@ void GCApplication::getBinMask( const cv::Mat& comMask, cv::Mat& binMask )
 }
 
 
-cv::Mat GCApplication::grab_cut(cv::Mat image, cv::Mat mask, int iter) 
+cv::Mat GCApplication::grabCutWMask(cv::Mat image, cv::Mat mask, int iter) 
 {
     cv::Mat bgdModel, fgdModel;
     cv::Rect rect;
@@ -38,20 +30,20 @@ cv::Mat GCApplication::grab_cut(cv::Mat image, cv::Mat mask, int iter)
     return mask;
 }
 
-void GCApplication::delete_holes(cv::Mat & mask) 
+void GCApplication::deleteHoles(cv::Mat & mask) 
 {
     cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT, 
-        cv::Size( 3, 3 ), cv::Point( 1, 1 ) );
+        cv::Size( 3, 3 ));
     erode( mask, mask, element );
     element = cv::getStructuringElement( cv::MORPH_RECT, 
-        cv::Size( 5, 5 ), cv::Point( 2, 2 ) );
+        cv::Size( 5, 5 ) );
     dilate( mask, mask, element );
     element = cv::getStructuringElement( cv::MORPH_RECT, 
-        cv::Size( 3, 3 ), cv::Point( 1, 1 ) );
+        cv::Size( 3, 3 ));
     erode( mask, mask, element );
 }
 
-cv::Mat GCApplication::mask_update(cv::Mat mask, int dilation_size, 
+cv::Mat GCApplication::updateMask(cv::Mat mask, int dilation_size, 
     int erosion_size) 
 {
     cv::Mat temp, mask_d, mask_e;

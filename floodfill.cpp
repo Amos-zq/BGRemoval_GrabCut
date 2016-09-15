@@ -1,14 +1,6 @@
-#include "opencv2/core.hpp"
-#include <opencv2/core/utility.hpp>
 #include "opencv2/imgproc.hpp"
-#include "opencv2/video/background_segm.hpp"
-#include "opencv2/videoio.hpp"
 #include "opencv2/highgui.hpp"
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
-#include <string>
-#include <iomanip>
 #include "gcapp.h"
 
 cv::Mat image_ff0, image_ff;
@@ -16,17 +8,17 @@ int loDiff = 0, upDiff = 0;
 
 int r, g, b;   // rgb color value
 
-void GCApplication::help_floodfill() 
+void GCApplication::helpFloodfill() 
 {
     std::cout << "Press 'f' to fill foreground" << std::endl
 	     << "Press 'b' to fill background" << std::endl
 	     << "Press 'p' to fill probable foreground" << std::endl
 	     << "Press 's' to save the current image_ff" << std::endl
-	     << "Press 'Esc' to continue to next step" << std::endl;
+	     << "Press 'n' to continue to next step" << std::endl;
 }
 
 
-void onMouse_fill( int event, int x, int y, int, void* )
+void onMouseFill( int event, int x, int y, int, void* )
 {
     if( event == cv::EVENT_LBUTTONDOWN ) {
         cv::Point seed = cv::Point(x,y);
@@ -45,20 +37,20 @@ void onMouse_fill( int event, int x, int y, int, void* )
 
 cv::Mat GCApplication::FloodFill( cv::Mat image_ff0, std::string output_dir )
 {
-    help_floodfill();
+    helpFloodfill();
     image_ff0.copyTo(image_ff);
     cv::namedWindow( "mask_ff_input", cv::WINDOW_AUTOSIZE );
     cv::createTrackbar( "lo_diff", "mask_ff_input", &loDiff, 255, 0 );
     cv::createTrackbar( "up_diff", "mask_ff_input", &upDiff, 255, 0 );
-    cv::setMouseCallback( "mask_ff_input", onMouse_fill, 0 );
+    cv::setMouseCallback( "mask_ff_input", onMouseFill, 0 );
 
     for(;;)
     {
         cv::imshow("mask_ff_input",  image_ff);
         int c = cv::waitKey(0);
-        if( (c & 255) == 27 )
+        if( (char)c == 'n' )
         {
-            std::cout << "Exiting ...\n";    
+            std::cout << "Next step ...\n";    
             cv::destroyWindow( "mask_ff_input" );
             break;
         }
