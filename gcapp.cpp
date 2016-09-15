@@ -5,7 +5,7 @@
 #include <iostream>
 #include "gcapp.h"
 
-void GCApplication::drawLines(cv::Mat& res, const std::vector<cv::Point> pxls, 
+void GCApplication::drawLines(cv::Mat& res, const std::vector<cv::Point>& pxls, 
 const cv::Scalar color, const cv::Scalar label) 
 {
     for ( int i = 0; !pxls.empty() && i < pxls.size() - 1; i ++ ) 

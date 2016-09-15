@@ -74,9 +74,9 @@ int main( int argc, char** argv )
     }
         
     std::string mode_string = parser.get<std::string>("mode");
-    if (mode_string == "single") gcapp.m_mode = gcapp.SINGLE;
-    else if (mode_string == "rgbd") gcapp.m_mode = gcapp.RGBD;
-    else if (mode_string == "video") gcapp.m_mode = gcapp.VIDEO;
+    if (mode_string == "single") gcapp.m_mode = GCApplication::SINGLE;
+    else if (mode_string == "rgbd") gcapp.m_mode = GCApplication::RGBD;
+    else if (mode_string == "video") gcapp.m_mode = GCApplication::VIDEO;
     else 
     {
         std::cout << "invalid mode -- Please choose from" <<
@@ -114,7 +114,7 @@ int main( int argc, char** argv )
     
     // get input image
     // mode - single image
-    if (gcapp.m_mode == gcapp.SINGLE) 
+    if (gcapp.m_mode == GCApplication::SINGLE) 
     {
         std::cout << "You are in Mode ---- single image." << std::endl;
         image = cv::imread(input_filename);
@@ -122,7 +122,7 @@ int main( int argc, char** argv )
     }
 
     // mode - rgbd image with depth mask provided
-    else if (gcapp.m_mode == gcapp.RGBD) 
+    else if (gcapp.m_mode == GCApplication::RGBD) 
     {
         std::cout << "You are in Mode ---- rgbd image with " <<
             "depth mask provided." << std::endl;
@@ -175,7 +175,7 @@ int main( int argc, char** argv )
     }
 
     // preprocess: get input mask by drawing lines and fill areas
-    if (gcapp.m_mode != gcapp.RGBD) {
+    if (gcapp.m_mode != GCApplication::RGBD) {
         helpPreprocess();
         const std::string winName = "image";
         cv::namedWindow( winName, cv::WINDOW_AUTOSIZE );
@@ -201,7 +201,7 @@ int main( int argc, char** argv )
                 std::string toBeBuiltDir = "output";
                 mkdir(toBeBuiltDir.c_str(), 
                     S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-                if (gcapp.m_mode == gcapp.VIDEO) 
+                if (gcapp.m_mode == GCApplication::VIDEO) 
                 {
                     toBeBuiltDir = "output/" + filename;
                     mkdir(toBeBuiltDir.c_str(), 
@@ -212,7 +212,7 @@ int main( int argc, char** argv )
                     output_dir = "output/" + filename + "/input_masks_grey/" + 
                         filename + "_frame_" + start_frame_str + ".jpg";
                 }
-                else if (gcapp.m_mode == gcapp.SINGLE) 
+                else if (gcapp.m_mode == GCApplication::SINGLE) 
                     output_dir = filename + "_input_mask.png";
 
                 cv::Mat mask1 = gcapp.m_mask * 60;
@@ -227,9 +227,9 @@ int main( int argc, char** argv )
     }
     
     // grabcut: get output mask
-    if (gcapp.m_mode == gcapp.SINGLE || gcapp.m_mode == gcapp.RGBD) 
+    if (gcapp.m_mode == GCApplication::SINGLE || gcapp.m_mode == GCApplication::RGBD) 
     {
-        if (gcapp.m_mode == gcapp.RGBD) 
+        if (gcapp.m_mode == GCApplication::RGBD) 
         {
             gcapp.m_mask = gcapp.updateMask(mask, dilation_size, erosion_size);
         }

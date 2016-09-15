@@ -49,8 +49,6 @@ void GCApplication::getMaskCombined (cv::Mat image, cv::Mat mask,
 void  GCApplication::FrameByFrame(std::string filename, int start_frame, 
     int iter, int dilation_size, int erosion_size)
 {
-    std::cout << "Enter Frame_by_fram " << std::endl;
-
     int count = 0;
 
     cv::VideoCapture cap;

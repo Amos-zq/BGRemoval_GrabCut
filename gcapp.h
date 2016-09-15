@@ -14,15 +14,15 @@ class GCApplication
 {
 public:
     enum{ NOT_SET = 0, IN_PROCESS = 1, SET = 2 };
-    enum grabCutMode {SINGLE, RGBD, VIDEO};
+    enum GrabCutMode {SINGLE, RGBD, VIDEO};
     static const int m_thickness = 3;
-    grabCutMode m_mode;
+    GrabCutMode m_mode;
     //gcapp.cpp
     void reset();
     void setImageAndWinName(const cv::Mat& _image, const std::string& _winName);
     void showImage()  ;
     void mouseClick( int event, int x, int y, int flags, void* param );
-    void drawLines(cv::Mat& res, const std::vector<cv::Point> pxls, 
+    void drawLines(cv::Mat& res, const std::vector<cv::Point>& pxls, 
         const cv::Scalar color, const cv::Scalar label);
     cv::Mat m_mask;
     //basic_define.cpp
